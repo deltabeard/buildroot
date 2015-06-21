@@ -1,0 +1,36 @@
+config BR2_PACKAGE_SDL2
+	bool "SDL2"
+	help
+	  Simple DirectMedia Layer - SDL is a library that allows
+	  programs portable low level access to a video framebuffer,
+	  audio output, mouse, and keyboard.
+
+	  http://www.libsdl.org/
+
+if BR2_PACKAGE_SDL2
+
+config BR2_PACKAGE_SDL2_RPI
+	bool "SDL2 for Raspberry Pi"
+	depends on BR2_PACKAGE_RPI_USERLAND
+	depends on BR2_PACKAGE_HAS_LIBGLES
+	depends on BR2_PACKAGE_EUDEV
+
+config BR2_PACKAGE_SDL2_FBCON
+	bool "SDL framebuffer console video driver"
+	default y
+
+config BR2_PACKAGE_SDL2_DIRECTFB
+	bool "SDL DirectFB video driver"
+	depends on BR2_PACKAGE_DIRECTFB
+
+config BR2_PACKAGE_SDL2_QTOPIA
+	bool "SDL Qtopia video driver"
+	depends on BR2_PACKAGE_QT
+
+config BR2_PACKAGE_SDL2_X11
+	bool "SDL X11 video driver"
+	depends on BR2_PACKAGE_XORG7
+	select BR2_PACKAGE_XLIB_LIBX11
+	select BR2_PACKAGE_XLIB_LIBXEXT
+
+endif
