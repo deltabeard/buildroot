@@ -9,5 +9,6 @@ config BR2_PACKAGE_ARMSNES
 
 	  http://www.libretro.com
 
-comment "armsnes needs a toolchain w/ C++"
-	depends on !BR2_INSTALL_LIBSTDCPP
+comment "armsnes needs a toolchain w/ C++, zlib, and libpng"
+	depends on !BR2_INSTALL_LIBSTDCPP && !BR2_PACKAGE_ZLIB \
+		&& !BR2_PACKAGE_LIBPNG

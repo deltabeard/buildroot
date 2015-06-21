@@ -10,6 +10,10 @@ config BR2_PACKAGE_RETROARCH
 
 	  http://www.libretro.com
 
+comment "retroarch requires a OpenGL ES or EGL backend and eudev"
+	depends on !BR2_PACKAGE_HAS_LIBGLES || !BR2_PACKAGE_HAS_LIBEGL
+	depends on !BR2_PACKAGE_EUDEV
+
 if BR2_PACKAGE_RETROARCH
 	source "package/libretro_armsnes/Config.in"
 	source "package/libretro_fceumm/Config.in"
