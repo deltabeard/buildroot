@@ -1,0 +1,19 @@
+config BR2_PACKAGE_OMXPLAYER
+	bool "omxplayer"
+	depends on BR2_TOOLCHAIN_BUILDROOT_GLIBC
+	select BR2_PACKAGE_FFMPEG
+	select BR2_PACKAGE_BOOST
+	select BR2_PACKAGE_PCRE
+#	select BR2_PACKAGE_LIBERATION
+	select BR2_PACKAGE_FFMPEG_GPL
+#	select BR2_PACKAGE_FFMPEG_AVFILTER
+	select BR2_PACKAGE_FFMPEG_SWSCALE
+	select BR2_PACKAGE_FFMPEG_POSTPROC
+	select BR2_PACKAGE_DBUS
+	select BR2_PACKAGE_ZLIB
+	help
+		Enables omxplayer (Media player backend
+		for xbmc on Raspberry Pi)
+
+comment "omxplayer requires glibc for input to work correctly with dbus"
+	depends on !BR2_TOOLCHAIN_BUILDROOT_GLIBC
