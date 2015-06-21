@@ -9,5 +9,5 @@ config BR2_PACKAGE_LIBRETRO_PICODRIVE
 
 	  http://www.libretro.com
 
-comment "Picodrive needs a toolchain w/ C++"
+comment "Picodrive needs a toolchain w/ C++ and SDL"
 	depends on !BR2_INSTALL_LIBSTDCPP && !BR2_PACKAGE_LIBPNG
