@@ -1,0 +1,21 @@
+comment "Retroarch depends on EGL or OpenGLES and eudev"
+        depends on !(BR2_PACKAGE_HAS_LIBEGL || BR2_PACKAGE_HAS_LIBGLES) && !BR2_PACKAGE_EUDEV
+
+config BR2_PACKAGE_RETROARCH
+	depends on BR2_PACKAGE_HAS_LIBGLES || BR2_PACKAGE_HAS_LIBEGL
+	depends on BR2_PACKAGE_EUDEV
+        bool "retroarch"
+        help
+          A multi emulator frontend.
+
+	  http://www.libretro.com
+
+if BR2_PACKAGE_RETROARCH
+	source "package/libretro_armsnes/Config.in"
+	source "package/libretro_fceumm/Config.in"
+	source "package/libretro_gambatte/Config.in"
+	source "package/libretro_gpsp/Config.in"
+	source "package/libretro_nestopia/Config.in"
+	source "package/libretro_pcsx/Config.in"
+	source "package/libretro_picodrive/Config.in"
+endif

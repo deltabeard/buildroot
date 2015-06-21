@@ -1,0 +1,26 @@
+From 53a6871e68a5c54df0e215e2aa742020cb79c648 Mon Sep 17 00:00:00 2001
+From: Ryan Coe <bluemrp9@gmail.com>
+Date: Sun, 26 Oct 2014 14:27:04 -0700
+Subject: [PATCH 1/2] add extra gl libs for raspberry pi
+
+Signed-off-by: Ryan Coe <bluemrp9@gmail.com>
+---
+ qb/config.libs.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/qb/config.libs.sh b/qb/config.libs.sh
+index 45fe114..efb88f5 100644
+--- a/qb/config.libs.sh
++++ b/qb/config.libs.sh
+@@ -41,7 +41,7 @@ if [ "$HAVE_VIDEOCORE" = 'yes' ]; then
+    [ -d /opt/vc/include/interface/vcos/pthreads ] && add_include_dirs /opt/vc/include/interface/vcos/pthreads
+    [ -d /opt/vc/include/interface/vmcs_host/linux ] && add_include_dirs /opt/vc/include/interface/vmcs_host/linux
+    HAVE_GLES='auto'
+-   EXTRA_GL_LIBS="-lEGL -lGLESv2 -lbcm_host -lvcos -lvchiq_arm"
++   EXTRA_GL_LIBS="-lEGL -lGLESv2 -lbcm_host -lvcos -lvchiq_arm -lvchostif"
+ fi
+ 
+ if [ "$HAVE_NEON" = "yes" ]; then
+-- 
+2.3.2
+
