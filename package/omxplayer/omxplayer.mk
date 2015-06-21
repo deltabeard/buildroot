@@ -1,7 +1,7 @@
 OMXPLAYER_VERSION = fe66e57caafac1e5f74318429e5b8bbd986ff53d
 OMXPLAYER_SITE = git://github.com/popcornmix/omxplayer.git
 OMXPLAYER_SITE_METHOD = git
-OMXPLAYER_DEPENDENCIES = ffmpeg freetype boost pcre liberation rpi-userland dbus
+OMXPLAYER_DEPENDENCIES = ffmpeg freetype boost pcre rpi-userland dbus
 
 OMXPLAYER_CONFIG_ENV = \
 	BUILDROOT=$(TOPDIR) \
@@ -35,14 +35,14 @@ endef
 define OMXPLAYER_INSTALL_TARGET_CMDS
 	$(INSTALL) -m 755 $(@D)/omxplayer.bin $(TARGET_DIR)/usr/bin/omxplayer.bin
 	$(INSTALL) -m 755 $(@D)/omxplayer $(TARGET_DIR)/usr/bin/omxplayer
-	mkdir -p $(TARGET_DIR)/usr/share/fonts/
-	$(INSTALL) -m 644 $(@D)/fonts/FreeSans*.ttf $(TARGET_DIR)/usr/share/fonts/
+	mkdir -p $(TARGET_DIR)/usr/share/fonts/truetype/freefont/
+	$(INSTALL) -m 644 $(@D)/fonts/FreeSans*.ttf $(TARGET_DIR)/usr/share/fonts/truetype/freefont/
 endef
 
 define OMXPLAYER_UNINSTALL_TARGET_CMDS
 	-rm $(TARGET_DIR)/usr/bin/omxplayer.bin
 	-rm $(TARGET_DIR)/usr/bin/omxplayer
-	-rm $(TARGET_DIR)/usr/share/fonts/FreeSans*.ttf
+	-rm $(TARGET_DIR)/usr/share/fonts/truetype/freefont/FreeSans*.ttf
 endef
 
 $(eval $(generic-package))
