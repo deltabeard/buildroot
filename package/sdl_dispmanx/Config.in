@@ -1,0 +1,8 @@
+config BR2_PACKAGE_SDL_DISPMANX
+        bool "SDL_dispmanx"
+	depends on BR2_PACKAGE_RPI_USERLAND
+	depends on BR2_PACKAGE_HAS_LIBGLES
+        help
+          SDL 1 with rpi fixes / dispmanx
+
+          https://github.com/joolswills/sdl1
