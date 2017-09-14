@@ -1,4 +1,4 @@
-From fe482a600d507dc7ce77f6d154a9e8b395f74fdd Mon Sep 17 00:00:00 2001
+From baf25b19be1df3ed8b285561e0c5d6bc61d07415 Mon Sep 17 00:00:00 2001
 From: Mahyar Koshkouei <mahyar.koshkouei@gmail.com>
 Date: Tue, 24 Oct 2017 09:47:38 +0100
 Subject: [PATCH] rpi: fix linking errors
@@ -9,24 +9,26 @@ Signed-off-by: Mahyar Koshkouei <mahyar.koshkouei@gmail.com>
 ---
 Status: pull request https://github.com/mpv-player/mpv/pull/4883
 ---
- waftools/checks/custom.py | 26 +++++++++++++++++++++++++-
+ waftools/checks/custom.py | 28 ++++++++++++++++++++++++++--
  wscript                   | 18 +-----------------
- 2 files changed, 26 insertions(+), 18 deletions(-)
+ 2 files changed, 27 insertions(+), 19 deletions(-)
 
 diff --git a/waftools/checks/custom.py b/waftools/checks/custom.py
-index d8065a3..9086795 100644
+index 698742406f..0154c9ef51 100644
 --- a/waftools/checks/custom.py
 +++ b/waftools/checks/custom.py
-@@ -4,7 +4,7 @@ from waflib import Utils
+@@ -3,8 +3,8 @@ from waftools.checks.generic import *
+ from waflib import Utils
  import os
  
- __all__ = ["check_pthreads", "check_iconv", "check_lua",
--           "check_cocoa", "check_openal"]
-+           "check_cocoa", "check_openal", "check_rpi"]
+-__all__ = ["check_pthreads", "check_iconv", "check_lua",
+-           "check_cocoa", "check_openal", "check_wl_protocols"]
++__all__ = ["check_pthreads", "check_iconv", "check_lua", "check_cocoa",
++        "check_openal", "check_rpi", "check_wl_protocols"]
  
  pthreads_program = load_fragment('pthreads.c')
  
-@@ -103,3 +103,27 @@ def check_openal(ctx, dependency_identifier):
+@@ -112,3 +112,27 @@ def check_openal(ctx, dependency_identifier):
          if fn(ctx, dependency_identifier):
              return True
      return False
@@ -55,12 +57,12 @@ index d8065a3..9086795 100644
 +    os.environ['PKG_CONFIG_PATH'] = prev_pkg_path
 +    return ret
 diff --git a/wscript b/wscript
-index 9d88588..84e5f2e 100644
+index bd4d7f128f..57a9749e0c 100644
 --- a/wscript
 +++ b/wscript
-@@ -732,25 +732,9 @@ video_output_features = [
-         'desc': 'Android support',
-         'func': check_statement('android/api-level.h', '(void)__ANDROID__'),  # arbitrary android-specific header
+@@ -756,25 +756,9 @@ video_output_features = [
+         'deps': 'win32-desktop && shaderc && crossc',
+         'func': check_cc(header_name=['d3d11_1.h', 'dxgi1_2.h']),
      }, {
 -        # We need MMAL/bcm_host/dispmanx APIs. Also, most RPI distros require
 -        # every project to hardcode the paths to the include directories. Also,
@@ -69,10 +71,10 @@ index 9d88588..84e5f2e 100644
          'name': '--rpi',
          'desc': 'Raspberry Pi support',
 -        'func': compose_checks(
--            check_cc(cflags="-isystem/opt/vc/include/ "+
--                            "-isystem/opt/vc/include/interface/vcos/pthreads " +
--                            "-isystem/opt/vc/include/interface/vmcs_host/linux " +
--                            "-fgnu89-inline",
+-            check_cc(cflags=["-isystem/opt/vc/include/",
+-                             "-isystem/opt/vc/include/interface/vcos/pthreads",
+-                             "-isystem/opt/vc/include/interface/vmcs_host/linux",
+-                             "-fgnu89-inline"],
 -                     linkflags="-L/opt/vc/lib",
 -                     header_name="bcm_host.h",
 -                     lib=['mmal_core', 'mmal_util', 'mmal_vc_client', 'bcm_host']),
@@ -86,5 +88,5 @@ index 9d88588..84e5f2e 100644
          'name': '--ios-gl',
          'desc': 'iOS OpenGL ES hardware decoding interop support',
 -- 
-2.14.2
+2.15.1
 
