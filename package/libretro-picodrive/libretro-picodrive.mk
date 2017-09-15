@@ -5,7 +5,7 @@
 ################################################################################
 LIBRETRO_PICODRIVE_VERSION = d6be4fa64216d73a4bdbf8aa9a31b3917fd82ad1
 LIBRETRO_PICODRIVE_SITE = $(call github,libretro,picodrive,$(LIBRETRO_PICODRIVE_VERSION))
-LIBRETRO_PICODRIVE_DEPENDENCIES = libpng sdl
+LIBRETRO_PICODRIVE_DEPENDENCIES = libpng
 
 define LIBRETRO_PICODRIVE_CONFIGURE_CMDS
 	rm -rf $(@D)/picodrive

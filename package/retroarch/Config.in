@@ -1,18 +1,32 @@
 config BR2_PACKAGE_RETROARCH
 	depends on (BR2_PACKAGE_HAS_LIBGLES || BR2_PACKAGE_HAS_LIBEGL || BR2_PACKAGE_HAS_LIBGL)
-        depends on BR2_PACKAGE_RECALBOX_SYSTEM
         bool "Retroarch"
         help
           A multi emulator frontend.
 
 	  http://www.libretro.com
 
-#if BR2_PACKAGE_RETROARCH
-#config BR2_PACKAGE_RETROARCH_RPI1
-#        bool "Compile for RPI1"
-#        help
-#		Compile for rpi1
-#endif
+if BR2_PACKAGE_RETROARCH
+       source "package/retroarch-joypad-autoconfig/Config.in"
+menu "Libretro Cores"
+       source "package/libretro-armsnes/Config.in"
+       source "package/libretro-fceumm/Config.in"
+       source "package/libretro-fceunext/Config.in"
+       source "package/libretro-gambatte/Config.in"
+       source "package/libretro-genesisplusgx/Config.in"
+       source "package/libretro-gpsp/Config.in"
+       source "package/libretro-meteor/Config.in"
+       source "package/libretro-mgba/Config.in"
+       source "package/libretro-nestopia/Config.in"
+       source "package/libretro-pcsx/Config.in"
+       source "package/libretro-picodrive/Config.in"
+       source "package/libretro-quicknes/Config.in"
+       source "package/libretro-snes9x-next/Config.in"
+       source "package/libretro-snes9x/Config.in"
+       source "package/libretro-snes9x2002/Config.in"
+       source "package/libretro-tgbdual/Config.in"
+endmenu
+endif
 
 comment "Retroarch depends on EGL or OpenGLES"
 	depends on !(BR2_PACKAGE_HAS_LIBEGL || BR2_PACKAGE_HAS_LIBGLES || BR2_PACKAGE_HAS_LIBGL)
