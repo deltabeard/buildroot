@@ -7,6 +7,7 @@ config BR2_PACKAGE_RETROARCH
 	  http://www.libretro.com
 
 if BR2_PACKAGE_RETROARCH
+       source "package/retroarch-assets/Config.in"
        source "package/retroarch-joypad-autoconfig/Config.in"
 menu "Libretro Cores"
        source "package/libretro-armsnes/Config.in"
