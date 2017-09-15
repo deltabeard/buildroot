@@ -1,0 +1,7 @@
+config BR2_PACKAGE_RETROARCH_ASSETS
+        bool "retroarch-assets"
+	depends on BR2_PACKAGE_RETROARCH
+	help
+	Assets needed for RetroArch. Also contains the official branding.
+
+	http://www.libretro.com
