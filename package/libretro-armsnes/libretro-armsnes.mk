@@ -3,10 +3,10 @@
 # ARMSNES
 #
 ################################################################################
-LIBRETRO_ARMSNES_VERSION = ca2fcbb55b83b18ef7a14618be318b9b226fda69
-LIBRETRO_ARMSNES_SITE = $(call github,spikegrobstein,ARMSNES-libretro,$(LIBRETRO_ARMSNES_VERSION))
+LIBRETRO_ARMSNES_VERSION = 295da98c0fd6a371e7c3e274a60632ca4e5289a9
+LIBRETRO_ARMSNES_SITE = $(call github,deltabeard,snes9x2002,$(LIBRETRO_ARMSNES_VERSION))
 
-LIBRETRO_ARMSNES_TARGET = libarmsnes.so
+LIBRETRO_ARMSNES_TARGET = libretro-armsnes.so
 
 define LIBRETRO_ARMSNES_BUILD_CMDS
 	$(MAKE) CC="$(TARGET_CC)" CXX="$(TARGET_CXX)" \
