@@ -3,7 +3,7 @@
 # MGBA
 #
 ################################################################################
-LIBRETRO_MGBA_VERSION = 24fb0a5ba23689aa4c0c9620ae6b5659d419fefb
+LIBRETRO_MGBA_VERSION = abf5a1889f34f9639e484bfd7a8f4a1e636de529
 LIBRETRO_MGBA_SITE = $(call github,libretro,mgba,$(LIBRETRO_MGBA_VERSION))
 
 ifeq ($(BR2_ARM_CPU_HAS_NEON),y)
