@@ -5,3 +5,12 @@ config BR2_PACKAGE_RETROARCH_ASSETS
 	Assets needed for RetroArch. Also contains the official branding.
 
 	http://www.libretro.com
+
+config BR2_PACKAGE_RETROARCH_ASSETS_XMB_ONLY
+	bool "retroarch-assets-xmb-only"
+	depends on !BR2_PACKAGE_RETROARCH_ASSETS
+	depends on BR2_PACKAGE_RETROARCH
+	help
+	Installs XMB theme assets for RetroArch only.
+
+	http://www.libretro.com
