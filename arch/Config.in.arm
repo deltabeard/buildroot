@@ -636,6 +636,14 @@ config BR2_ARM_FPU_NEON_FP_ARMV8
 	  This option allows to use both the ARMv8 floating point unit
 	  and the NEON SIMD unit for floating point operations.
 
+config BR2_ARM_FPU_CRYPTO_NEON_FP_ARMV8
+	bool "CRYPTO/NEON/FP-ARMv8"
+	depends on BR2_ARM_CPU_HAS_FP_ARMV8
+	depends on BR2_ARM_CPU_HAS_NEON
+	help
+	  This option allows to use both the ARMv8 floating point unit the NEON
+	  SIMD unit for floating point operations, and Cryptography Extensions.
+
 endchoice
 
 choice
@@ -756,6 +764,7 @@ config BR2_GCC_TARGET_FPU
 	default "neon-vfpv4"	if BR2_ARM_FPU_NEON_VFPV4
 	default "fp-armv8"	if BR2_ARM_FPU_FP_ARMV8
 	default "neon-fp-armv8"	if BR2_ARM_FPU_NEON_FP_ARMV8
+	default "crypto-neon-fp-armv8"	if BR2_ARM_FPU_CRYPTO_NEON_FP_ARMV8
 
 config BR2_GCC_TARGET_FLOAT_ABI
 	default "soft"		if BR2_ARM_SOFT_FLOAT
