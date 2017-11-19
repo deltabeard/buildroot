@@ -3,7 +3,7 @@
 # PICODRIVE
 #
 ################################################################################
-LIBRETRO_PICODRIVE_VERSION = d6be4fa64216d73a4bdbf8aa9a31b3917fd82ad1
+LIBRETRO_PICODRIVE_VERSION = c3887ce8d37a23c0a84d3c4279b10f80fee319b0
 LIBRETRO_PICODRIVE_SITE = $(call github,libretro,picodrive,$(LIBRETRO_PICODRIVE_VERSION))
 LIBRETRO_PICODRIVE_DEPENDENCIES = libpng
 
@@ -15,21 +15,7 @@ endef
 
 PICOPLATFORM=$(LIBRETRO_PLATFORM)
 
-# RPI 0 and 1
-ifeq ($(BR2_arm1176jzf_s),y)
-  PICOPLATFORM=$(LIBRETRO_PLATFORM) armasm
-endif
-
-# RPI 2 and 3
-ifeq ($(BR2_cortex_a7),y)
-  PICOPLATFORM=$(LIBRETRO_PLATFORM) armasm
-endif
-ifeq ($(BR2_cortex_a8),y)
-  PICOPLATFORM=$(LIBRETRO_PLATFORM) armasm
-endif
-
-# odroid xu4
-ifeq ($(BR2_cortex_a15),y)
+ifeq ($(BR2_arm),y)
   PICOPLATFORM=$(LIBRETRO_PLATFORM) armasm
 endif
 
