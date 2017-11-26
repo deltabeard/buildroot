@@ -133,7 +133,7 @@ else
 SDL2_CONF_OPTS += --disable-video-kmsdrm
 endif
 
-ifeq ($(BR2_PACKAGE_RPI_FIRMWARE),y)
+ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
 SDL2_CONF_OPTS += LDFLAGS="-lGLESv2 -lbrcmEGL -lvchostif"
 endif
 
