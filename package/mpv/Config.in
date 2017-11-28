@@ -24,6 +24,13 @@ config BR2_PACKAGE_MPV
 
 	  https://mpv.io/
 
+config BR2_PACKAGE_MPV_OSD
+	bool "mpv-osd"
+	depends on BR2_PACKAGE_MPV
+	select BR2_PACKAGE_LIBASS
+	help
+	  Enable the on-screen display (OSD) in mpv.
+
 comment "mpv needs a toolchain w/ threads, gcc >= 4.5"
 	depends on BR2_PACKAGE_FFMPEG_ARCH_SUPPORTS
 	depends on BR2_TOOLCHAIN_HAS_ATOMIC || BR2_TOOLCHAIN_HAS_SYNC_8
