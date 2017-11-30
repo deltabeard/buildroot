@@ -48,6 +48,12 @@ config BR2_PACKAGE_RPI_FIRMWARE_BOOT
 	default "_x"    if BR2_PACKAGE_RPI_FIRMWARE_X
 	default "_cd"   if BR2_PACKAGE_RPI_FIRMWARE_CD
 
+config BR2_PACKAGE_RPI_FIRMWARE_CMDLINE
+	string "Kernel command string (cmdline.txt)"
+	default "root=/dev/mmcblk0p2 rootwait console=tty1 console=ttyAMA0,115200"
+	help
+	  Set the contents of cmdline.txt here.
+
 config BR2_PACKAGE_RPI_FIRMWARE_INSTALL_DTBS
 	bool "Install Device Tree Blobs (DTBs)"
 	default y
