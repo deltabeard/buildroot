@@ -41,7 +41,7 @@ define RPI_FIRMWARE_INSTALL_IMAGES_CMDS
 	$(INSTALL) -D -m 0644 $(@D)/boot/start$(BR2_PACKAGE_RPI_FIRMWARE_BOOT).elf $(TARGET_DIR)/boot/start.elf
 	$(INSTALL) -D -m 0644 $(@D)/boot/fixup$(BR2_PACKAGE_RPI_FIRMWARE_BOOT).dat $(TARGET_DIR)/boot/fixup.dat
 	$(INSTALL) -D -m 0644 package/rpi-firmware/config.txt $(TARGET_DIR)/boot/config.txt
-	$(INSTALL) -D -m 0644 package/rpi-firmware/cmdline.txt $(TARGET_DIR)/boot/cmdline.txt
+	echo $(BR2_PACKAGE_RPI_FIRMWARE_CMDLINE) > $(TARGET_DIR)/boot/cmdline.txt
 	$(RPI_FIRMWARE_INSTALL_DTB)
 	$(RPI_FIRMWARE_INSTALL_DTB_OVERLAYS)
 endef
