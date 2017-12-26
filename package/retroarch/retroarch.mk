@@ -3,7 +3,7 @@
 # retroarch
 #
 ################################################################################
-RETROARCH_VERSION = 1.6.9
+RETROARCH_VERSION = 1.7.0
 RETROARCH_SITE = https://github.com/libretro/RetroArch/archive
 RETROARCH_SOURCE = v$(RETROARCH_VERSION).tar.gz
 RETROARCH_LICENSE = GPLv3+
