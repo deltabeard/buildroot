@@ -4,8 +4,12 @@
 #
 ################################################################################
 
+ifeq ($(BR2_PACKAGE_FFMPEG_SNAPSHOT),y)
+FFMPEG_VERSION = snapshot
+else
 FFMPEG_VERSION = 3.4.1
-FFMPEG_SOURCE = ffmpeg-$(FFMPEG_VERSION).tar.xz
+endif
+FFMPEG_SOURCE = ffmpeg-$(FFMPEG_VERSION).tar.bz2
 FFMPEG_SITE = http://ffmpeg.org/releases
 FFMPEG_INSTALL_STAGING = YES
 

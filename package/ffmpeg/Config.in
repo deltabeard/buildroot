@@ -28,6 +28,12 @@ menuconfig BR2_PACKAGE_FFMPEG
 
 if BR2_PACKAGE_FFMPEG
 
+config BR2_PACKAGE_FFMPEG_SNAPSHOT
+	bool "Use latest development branch snapshot"
+	help
+	  use the development branch snapshot of FFmpeg, which may include
+	  features not yet included in the latest release.
+
 config BR2_PACKAGE_FFMPEG_GPL
 	bool "Enable GPL code"
 	help
