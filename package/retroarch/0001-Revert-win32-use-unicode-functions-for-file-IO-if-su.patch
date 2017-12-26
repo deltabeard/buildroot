@@ -1,0 +1,234 @@
+From 15d57d0bb3a228a774893f592ab0112565b69dbc Mon Sep 17 00:00:00 2001
+From: Mahyar Koshkouei <mahyar.koshkouei@gmail.com>
+Date: Tue, 26 Dec 2017 11:48:23 +0000
+Subject: [PATCH 1/1] Revert "win32: use unicode functions for file IO if
+ supported"
+
+This reverts commit 1b1d5c468d7325468a3db3a692046a546416e483.
+
+Signed-off-by: Mahyar Koshkouei <mahyar.koshkouei@gmail.com>
+---
+ libretro-common/encodings/encoding_utf.c | 145 +------------------------------
+ libretro-common/file/retro_dirent.c      |  16 +---
+ libretro-common/include/encodings/utf.h  |   4 -
+ 3 files changed, 2 insertions(+), 163 deletions(-)
+
+diff --git a/libretro-common/encodings/encoding_utf.c b/libretro-common/encodings/encoding_utf.c
+index d1ec88298..5ba7e40f2 100644
+--- a/libretro-common/encodings/encoding_utf.c
++++ b/libretro-common/encodings/encoding_utf.c
+@@ -20,6 +20,7 @@
+  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  */
+ 
++#include <stdio.h>
+ #include <stdint.h>
+ #include <stdlib.h>
+ #include <stddef.h>
+@@ -368,147 +369,3 @@ char* local_to_utf8_string_alloc(const char *str)
+ {
+    return mb_to_mb_string_alloc(str, CODEPAGE_LOCAL, CODEPAGE_UTF8);
+ }
+-
+-/* Returned pointer MUST be freed by the caller if non-NULL. */
+-wchar_t* utf8_to_utf16_string_alloc(const char *str)
+-{
+-#ifdef _WIN32
+-   int len = 0;
+-   int out_len = 0;
+-#else
+-   size_t len = 0;
+-   size_t out_len = 0;
+-#endif
+-   wchar_t *buf = NULL;
+-
+-   if (!str || !*str)
+-      return NULL;
+-
+-#ifdef _WIN32
+-   len = MultiByteToWideChar(CP_UTF8, 0, str, -1, NULL, 0);
+-
+-   if (len)
+-   {
+-      buf = (wchar_t*)calloc(len, sizeof(wchar_t));
+-
+-      if (!buf)
+-         return NULL;
+-
+-      out_len = MultiByteToWideChar(CP_UTF8, 0, str, -1, buf, len);
+-   }
+-   else
+-   {
+-      /* fallback to ANSI codepage instead */
+-      len = MultiByteToWideChar(CP_ACP, 0, str, -1, NULL, 0);
+-
+-      if (len)
+-      {
+-         buf = (wchar_t*)calloc(len, sizeof(wchar_t));
+-
+-         if (!buf)
+-            return NULL;
+-
+-         out_len = MultiByteToWideChar(CP_ACP, 0, str, -1, buf, len);
+-      }
+-   }
+-
+-   if (out_len < 0)
+-   {
+-      free(buf);
+-      return NULL;
+-   }
+-#else
+-   /* NOTE: For now, assume non-Windows platforms' locale is already UTF-8. */
+-   len = mbstowcs(NULL, str, 0) + 1;
+-
+-   if (len)
+-   {
+-      buf = (wchar_t*)calloc(len, sizeof(wchar_t));
+-
+-      if (!buf)
+-         return NULL;
+-
+-      out_len = mbstowcs(buf, str, len);
+-   }
+-
+-   if (out_len == (size_t)-1)
+-   {
+-      free(buf);
+-      return NULL;
+-   }
+-#endif
+-
+-   return buf;
+-}
+-
+-/* Returned pointer MUST be freed by the caller if non-NULL. */
+-char* utf16_to_utf8_string_alloc(const wchar_t *str)
+-{
+-#ifdef _WIN32
+-   int len = 0;
+-   int out_len = 0;
+-#else
+-   size_t len = 0;
+-   size_t out_len = 0;
+-#endif
+-   char *buf = NULL;
+-
+-   if (!str || !*str)
+-      return NULL;
+-
+-#ifdef _WIN32
+-   len = WideCharToMultiByte(CP_UTF8, 0, str, -1, NULL, 0, NULL, NULL);
+-
+-   if (len)
+-   {
+-      buf = (char*)calloc(len, sizeof(char));
+-
+-      if (!buf)
+-         return NULL;
+-
+-      out_len = WideCharToMultiByte(CP_UTF8, 0, str, -1, buf, len, NULL, NULL);
+-   }
+-   else
+-   {
+-      /* fallback to ANSI codepage instead */
+-      len = WideCharToMultiByte(CP_ACP, 0, str, -1, NULL, 0, NULL, NULL);
+-
+-      if (len)
+-      {
+-         buf = (char*)calloc(len, sizeof(char));
+-
+-         if (!buf)
+-            return NULL;
+-
+-         out_len = WideCharToMultiByte(CP_ACP, 0, str, -1, buf, len, NULL, NULL);
+-      }
+-   }
+-
+-   if (out_len < 0)
+-   {
+-      free(buf);
+-      return NULL;
+-   }
+-#else
+-   /* NOTE: For now, assume non-Windows platforms' locale is already UTF-8. */
+-   len = wcstombs(NULL, str, 0) + 1;
+-
+-   if (len)
+-   {
+-      buf = (char*)calloc(len, sizeof(char));
+-
+-      if (!buf)
+-         return NULL;
+-
+-      out_len = wcstombs(buf, str, len);
+-   }
+-
+-   if (out_len == (size_t)-1)
+-   {
+-      free(buf);
+-      return NULL;
+-   }
+-#endif
+-
+-   return buf;
+-}
+diff --git a/libretro-common/file/retro_dirent.c b/libretro-common/file/retro_dirent.c
+index 0b716e6e5..b9addeccb 100644
+--- a/libretro-common/file/retro_dirent.c
++++ b/libretro-common/file/retro_dirent.c
+@@ -78,9 +78,6 @@ struct RDIR
+ #if defined(_WIN32)
+ #if defined(LEGACY_WIN32)
+    WIN32_FIND_DATA entry;
+-#else
+-   WIN32_FIND_DATAW entry;
+-#endif
+    HANDLE directory;
+    bool next;
+    char path[PATH_MAX_LENGTH];
+@@ -169,9 +166,6 @@ int retro_readdir(struct RDIR *rdir)
+    if(rdir->next)
+ #if defined(LEGACY_WIN32)
+       return (FindNextFile(rdir->directory, &rdir->entry) != 0);
+-#else
+-      return (FindNextFileW(rdir->directory, &rdir->entry) != 0);
+-#endif
+ 
+    rdir->next = true;
+    return (rdir->directory != INVALID_HANDLE_VALUE);
+@@ -196,15 +190,7 @@ const char *retro_dirent_get_name(struct RDIR *rdir)
+ 
+    if (name_local)
+       free(name_local);
+-#else
+-   char *name = utf16_to_utf8_string_alloc(rdir->entry.cFileName);
+-   memset(rdir->entry.cFileName, 0, sizeof(rdir->entry.cFileName));
+-   strlcpy((char*)rdir->entry.cFileName, name, sizeof(rdir->entry.cFileName));
+-
+-   if (name)
+-      free(name);
+-#endif
+-   return (char*)rdir->entry.cFileName;
++   return rdir->entry.cFileName;
+ #elif defined(VITA) || defined(PSP) || defined(__CELLOS_LV2__)
+    return rdir->entry.d_name;
+ #else
+diff --git a/libretro-common/include/encodings/utf.h b/libretro-common/include/encodings/utf.h
+index bad945896..b8991d0dc 100644
+--- a/libretro-common/include/encodings/utf.h
++++ b/libretro-common/include/encodings/utf.h
+@@ -58,10 +58,6 @@ char* utf8_to_local_string_alloc(const char *str);
+ 
+ char* local_to_utf8_string_alloc(const char *str);
+ 
+-wchar_t* utf8_to_utf16_string_alloc(const char *str);
+-
+-char* utf16_to_utf8_string_alloc(const wchar_t *str);
+-
+ RETRO_END_DECLS
+ 
+ #endif
+-- 
+2.15.1
+
