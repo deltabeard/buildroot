@@ -104,6 +104,14 @@ else
 RETROARCH_CONF_OPTS += --disable-freetype
 endif
 
+# Raspberry Pi support
+ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
+RETROARCH_CONF_OPTS += --enable-videocore
+RETROARCH_DEPENDENCIES += rpi-userland
+else
+RETROARCH_CONF_OPTS += --disable-videocore
+endif
+
 define RETROARCH_MALI_FIXUP
 	# the type changed with the recent sdk
 	$(SED) 's|mali_native_window|fbdev_window|g' $(@D)/gfx/drivers_context/mali_fbdev_ctx.c
