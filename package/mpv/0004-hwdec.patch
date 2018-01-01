@@ -1,0 +1,26 @@
+From 2d612544e073780a3b8de25bdee562b98c86fa1e Mon Sep 17 00:00:00 2001
+From: wm4 <wm4@nowhere>
+Date: Thu, 28 Dec 2017 04:07:28 +0100
+Subject: [PATCH] vd_lavc: fix crash with RPI hwdec
+
+If you use vo_rpi, this could crash, because hwdec_devs is NULL.
+
+Untested. Fixes #5301.
+---
+ video/decode/vd_lavc.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/video/decode/vd_lavc.c b/video/decode/vd_lavc.c
+index a6dd50597a..29bf3ec56f 100644
+--- a/video/decode/vd_lavc.c
++++ b/video/decode/vd_lavc.c
+@@ -453,7 +453,8 @@ static void select_and_set_hwdec(struct dec_video *vd)
+             } else if (!hwdec->copying) {
+                 // Most likely METHOD_INTERNAL, which often use delay-loaded
+                 // VO support as well.
+-                hwdec_devices_request_all(vd->hwdec_devs);
++                if (vd->hwdec_devs)
++                    hwdec_devices_request_all(vd->hwdec_devs);
+             }
+ 
+             ctx->use_hwdec = true;
