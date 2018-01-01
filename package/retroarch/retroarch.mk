@@ -54,6 +54,13 @@ else
 RETROARCH_CONF_OPTS += --disable-alsa
 endif
 
+ifeq ($(BR2_PACKAGE_TINYALSA),y)
+RETROARCH_CONF_OPTS += --enable-tinyalsa
+RETROARCH_DEPENDENCIES += tinyalsa
+else
+RETROARCH_CONF_OPTS += --disable-tinyalsa
+endif
+
 ifeq ($(BR2_PACKAGE_PULSEAUDIO),y)
 RETROARCH_CONF_OPTS += --enable-pulse
 RETROARCH_DEPENDENCIES += pulseaudio
@@ -124,6 +131,9 @@ endif
 
 define RETROARCH_CONFIGURE_CMDS
 	(cd $(@D); rm -rf config.cache; \
+		PKG_CONFIG_SYSROOT_DIR="$(STAGING_DIR)" \
+		PKG_CONFIG="$(PKG_CONFIG_HOST_BINARY)" \
+		PKG_CONFIG_PATH="$(STAGING_DIR)/usr/lib/pkgconfig:$(PKG_CONFIG_PATH)" \
 		$(TARGET_CONFIGURE_ARGS) \
 		$(TARGET_CONFIGURE_OPTS) \
 		CFLAGS="$(TARGET_CFLAGS)" \
