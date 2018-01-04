@@ -1,0 +1,11 @@
+config BR2_PACKAGE_LIBRETRO_MPV
+        bool "libretro-mpv"
+	depends on BR2_PACKAGE_RETROARCH
+	depends on BR2_PACKAGE_MPV_LIB
+        help
+          A libretro core based on the mpv media player.
+
+          https://github.com/deltabeard/libretro-mpv
+
+comment "Libretro-mpv depends on libmpv"
+	depends on !BR2_PACKAGE_MPV_LIB
