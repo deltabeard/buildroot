@@ -25,6 +25,12 @@ config BR2_PACKAGE_MPV
 
 	  https://mpv.io/
 
+config BR2_PACKAGE_MPV_LIB
+	bool "libmpv"
+	depends on BR2_PACKAGE_MPV
+	help
+	  Compile libmpv shared library.
+
 config BR2_PACKAGE_MPV_OSD
 	bool "mpv-osd"
 	depends on BR2_PACKAGE_MPV

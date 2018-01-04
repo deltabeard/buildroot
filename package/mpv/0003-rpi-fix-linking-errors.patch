@@ -1,7 +1,7 @@
-From baf25b19be1df3ed8b285561e0c5d6bc61d07415 Mon Sep 17 00:00:00 2001
+From f3d62f2acd4e90f50cd4a77a5c1887fc037bc4e7 Mon Sep 17 00:00:00 2001
 From: Mahyar Koshkouei <mahyar.koshkouei@gmail.com>
 Date: Tue, 24 Oct 2017 09:47:38 +0100
-Subject: [PATCH] rpi: fix linking errors
+Subject: [PATCH 1/1] rpi: fix linking errors
 
 Fixes linking issues when compiling with Raspberry Pi support.
 
@@ -57,7 +57,7 @@ index 698742406f..0154c9ef51 100644
 +    os.environ['PKG_CONFIG_PATH'] = prev_pkg_path
 +    return ret
 diff --git a/wscript b/wscript
-index bd4d7f128f..57a9749e0c 100644
+index 1880f631e5..6adf942a4a 100644
 --- a/wscript
 +++ b/wscript
 @@ -756,25 +756,9 @@ video_output_features = [
@@ -71,7 +71,7 @@ index bd4d7f128f..57a9749e0c 100644
          'name': '--rpi',
          'desc': 'Raspberry Pi support',
 -        'func': compose_checks(
--            check_cc(cflags=["-isystem/opt/vc/include/",
+-            check_cc(cflags=["-isystem/opt/vc/include",
 -                             "-isystem/opt/vc/include/interface/vcos/pthreads",
 -                             "-isystem/opt/vc/include/interface/vmcs_host/linux",
 -                             "-fgnu89-inline"],

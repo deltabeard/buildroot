@@ -12,6 +12,7 @@ MPV_DEPENDENCIES = \
 	$(if $(BR2_PACKAGE_LIBICONV),libiconv)
 MPV_LICENSE = GPL-2.0+
 MPV_LICENSE_FILES = LICENSE
+MPV_INSTALL_STAGING = YES
 
 MPV_NEEDS_EXTERNAL_WAF = YES
 
@@ -31,7 +32,9 @@ MPV_CONF_OPTS = \
 	--disable-uchardet \
 	--disable-vapoursynth \
 	--disable-vapoursynth-lazy \
-	--disable-vdpau
+	--disable-vdpau \
+	--disable-manpage-build \
+	--disable-debug-build
 
 # ALSA support requires pcm+mixer
 ifeq ($(BR2_PACKAGE_ALSA_LIB_MIXER)$(BR2_PACKAGE_ALSA_LIB_PCM),yy)
@@ -213,6 +216,12 @@ MPV_CONF_OPTS += --disable-xv
 endif
 else
 MPV_CONF_OPTS += --disable-x11
+endif
+
+ifeq ($(BR2_PACKAGE_MPV_LIB),y)
+MPV_CONF_OPTS += --enable-libmpv-shared
+else
+MPV_CONF_OPTS += --disable-libmpv-shared
 endif
 
 $(eval $(waf-package))
