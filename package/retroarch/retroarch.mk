@@ -119,6 +119,10 @@ else
 RETROARCH_CONF_OPTS += --disable-videocore
 endif
 
+ifeq ($(BR2_PACKAGE_LIBRETRO_MPV),y)
+RETROARCH_CONF_OPTS += --disable-ffmpeg
+endif
+
 define RETROARCH_MALI_FIXUP
 	# the type changed with the recent sdk
 	$(SED) 's|mali_native_window|fbdev_window|g' $(@D)/gfx/drivers_context/mali_fbdev_ctx.c
