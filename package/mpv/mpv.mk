@@ -4,9 +4,8 @@
 #
 ################################################################################
 
-MPV_VERSION = 0.28.0
-MPV_SITE = https://github.com/mpv-player/mpv/archive
-MPV_SOURCE = v$(MPV_VERSION).tar.gz
+MPV_VERSION = a5f53da229f0f3f5b7e248c47061a67f6d61d81e
+MPV_SITE = $(call github,mpv-player,mpv,$(MPV_VERSION))
 MPV_DEPENDENCIES = \
 	host-pkgconf ffmpeg zlib \
 	$(if $(BR2_PACKAGE_LIBICONV),libiconv)

@@ -3,12 +3,14 @@
 # retroarch
 #
 ################################################################################
-RETROARCH_VERSION = 1.7.0
-RETROARCH_SITE = https://github.com/libretro/RetroArch/archive
-RETROARCH_SOURCE = v$(RETROARCH_VERSION).tar.gz
+RETROARCH_VERSION = e601190ecb51427a2644460e4a8aaf62d4d82c12
+RETROARCH_SITE = $(call github,libretro,retroarch,$(RETROARCH_VERSION))
 RETROARCH_LICENSE = GPLv3+
 RETROARCH_CONF_OPTS += --disable-oss --enable-zlib
 RETROARCH_DEPENDENCIES = host-pkgconf
+
+# DEFINITION OF LIBRETRO PLATFORM
+LIBRETRO_PLATFORM =
 
 ifeq ($(BR2_PACKAGE_SDL2),y)
 	RETROARCH_CONF_OPTS += --enable-sdl2
@@ -71,6 +73,7 @@ endif
 ifeq ($(BR2_PACKAGE_HAS_LIBGLES),y)
 RETROARCH_CONF_OPTS += --enable-opengles
 RETROARCH_DEPENDENCIES += libgles
+LIBRETRO_PLATFORM += gles
 else
 RETROARCH_CONF_OPTS += --disable-opengles
 endif
@@ -111,16 +114,8 @@ else
 RETROARCH_CONF_OPTS += --disable-freetype
 endif
 
-# Raspberry Pi support
-ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
-RETROARCH_CONF_OPTS += --enable-videocore
-RETROARCH_DEPENDENCIES += rpi-userland
-else
-RETROARCH_CONF_OPTS += --disable-videocore
-endif
-
 ifeq ($(BR2_PACKAGE_LIBRETRO_MPV),y)
-RETROARCH_CONF_OPTS += --disable-ffmpeg
+RETROARCH_CONF_OPTS += --disable-ffmpeg --disable-ssa
 endif
 
 define RETROARCH_MALI_FIXUP
@@ -159,8 +154,6 @@ endef
 
 $(eval $(generic-package))
 
-# DEFINITION OF LIBRETRO PLATFORM
-LIBRETRO_PLATFORM =
 ifeq ($(BR2_ARM_CPU_ARMV6),y)
         LIBRETRO_PLATFORM += armv6
 endif

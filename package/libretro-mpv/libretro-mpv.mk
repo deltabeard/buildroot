@@ -4,9 +4,11 @@
 #
 ################################################################################
 
-LIBRETRO_MPV_VERSION = 0.2.alpha
-LIBRETRO_MPV_SITE = https://github.com/deltabeard/libretro-mpv/archive
-LIBRETRO_MPV_SOURCE = $(LIBRETRO_MPV_VERSION).tar.gz
+#LIBRETRO_MPV_VERSION = 0.2.alpha
+LIBRETRO_MPV_VERSION = 27b40337e8a95aa9af0cabe95475b3fee04c46ce
+LIBRETRO_MPV_SITE = $(call github,libretro,libretro-mpv,$(LIBRETRO_MPV_VERSION))
+#LIBRETRO_MPV_SITE = https://github.com/deltabeard/libretro-mpv/archive
+#LIBRETRO_MPV_SOURCE = $(LIBRETRO_MPV_VERSION).tar.gz
 LIBRETRO_MPV_DEPENDENCIES = mpv retroarch
 
 define LIBRETRO_MPV_BUILD_CMDS
