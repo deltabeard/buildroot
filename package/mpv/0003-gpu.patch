@@ -1,0 +1,23 @@
+diff --git a/video/out/opengl/context_rpi.c b/video/out/opengl/context_rpi.c
+index 8b447d0bfc..e00c65f02c 100644
+--- a/video/out/opengl/context_rpi.c
++++ b/video/out/opengl/context_rpi.c
+@@ -198,7 +198,9 @@ static bool recreate_dispmanx(struct ra_ctx *ctx)
+ 
+     ctx->vo->dwidth = p->w;
+     ctx->vo->dheight = p->h;
+-    ra_gl_ctx_resize(ctx->swapchain, p->w, p->h, 0);
++
++    if (ctx->swapchain)
++        ra_gl_ctx_resize(ctx->swapchain, p->w, p->h, 0);
+ 
+     ctx->vo->want_redraw = true;
+ 
+@@ -247,6 +249,7 @@ static bool rpi_init(struct ra_ctx *ctx)
+     if (!ra_gl_ctx_init(ctx, &p->gl, params))
+         goto fail;
+ 
++    ra_gl_ctx_resize(ctx->swapchain, ctx->vo->dwidth, ctx->vo->dheight, 0);
+     return true;
+ 
+ fail:
